@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/faalsh/materialize-css-boilerplate.svg?branch=master)](https://travis-ci.org/faalsh/materialize-css-boilerplate)
 
+[![Dependencies Status](https://david-dm.org/faalsh/materialize-css-boilerplate.svg)
+
 # materialize-css-boilerplate
 Boilerplate to get you started quickly with materialize-css
 
