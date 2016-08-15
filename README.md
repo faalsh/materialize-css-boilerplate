@@ -13,7 +13,7 @@ This boilerplate include my favorite tools and components
 * Javascripts and CSS files are uglyfied and minified for the production version
 * Javascripts and CSS files are injected automatically into the html
 * The sources are compiled into two differnt versions (development and release)
-* The sources are build using Gulp
+* The sources are built using Gulp
 * Watches the files and refresh the browser automatically
 * More effeicient coding with Jade, SASS and CoffeeScript
 * Front-End dependencies are managed with Bower
