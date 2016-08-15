@@ -1,0 +1,21 @@
+{
+  "name": "materialize-css-boilerplate",
+  "description": "",
+  "main": "index.js",
+  "license": "ISC",
+  "homepage": "https://github.com/faalsh/materialize-css-boilerplate",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~3.1.0",
+    "materialize": "~0.97.7"
+  }
+}
