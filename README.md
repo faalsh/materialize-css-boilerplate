@@ -15,9 +15,9 @@ This boilerplate include my favorite tools and components
 
 ## Requirements
 
-** [Node.js](https://nodejs.org/)
-** [Ruby](https://www.ruby-lang.org/en/documentation/installation/)
-** SASS and Compass
+* [Node.js](https://nodejs.org/)
+* [Ruby](https://www.ruby-lang.org/en/documentation/installation/)
+* SASS and Compass
 ```
 gem install sass
 ```
@@ -25,7 +25,7 @@ gem install sass
 gem install compass
 ```
 
-** Gulp
+* Gulp
 ```
 npm install -g gulp
 ```
