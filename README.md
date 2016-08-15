@@ -45,6 +45,8 @@ To run
 gulp watch
 ```
 
+Then the browser will automatically open http://localhost:3000
+
 To release 
 
 ```
