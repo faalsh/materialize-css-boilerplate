@@ -13,6 +13,23 @@ This boilerplate include my favorite tools and components
 * Javascripts and CSS files are uglyfied and minified for the production version
 * Javascripts and CSS files are injected automatically into the html
 
+## Requirements
+
+** [Node.js](https://nodejs.org/)
+** [Ruby](https://www.ruby-lang.org/en/documentation/installation/)
+** SASS and Compass
+```
+gem install sass
+```
+```
+gem install compass
+```
+
+** Gulp
+```
+npm install -g gulp
+```
+
 ## Setup
 
 To setup the project and install all dependencies, run 
