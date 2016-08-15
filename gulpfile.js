@@ -7,6 +7,7 @@ var gulp = require('gulp'),
 	cleanCSS = require('gulp-clean-css'),
 	uglify = require('gulp-uglify'),
 	inject = require('gulp-inject'),
+  series = require('stream-series'),
 	coffee = require('gulp-coffee'),
 	debug = require('gulp-debug'),
 	browserSync = require('browser-sync').create();
@@ -65,6 +66,8 @@ Html Tasks
 **********************************************************************/
 
 gulp.task('jade-release', function(cb) {
+
+
 	gulp.src('./src/jade/**/*.jade')
     .pipe(jade())
     .pipe(gulp.dest('./dist/'))
@@ -75,11 +78,17 @@ gulp.task('jade-release', function(cb) {
 
 
 gulp.task('jade-dev', function() {
+
+
+  var vendorStream = gulp.src(['./dev/js/vendor/**/*.js'], {read: false});
+  var appStream = gulp.src(['./dev/js/app/**/*.js'], {read: false});
+
 	gulp.src('./src/jade/**/*.jade')
 	.pipe(plumber())
     .pipe(jade())
     .pipe(gulp.dest('./dev/'))
-    .pipe(inject(gulp.src(['./dev/js/**/*.js', './dev/css/**/*.css'], {read: false}), {relative: true}))
+    .pipe(inject(series(vendorStream, appStream), {relative: true}))
+    .pipe(inject(gulp.src(['./dev/css/**/*.css'], {read: false}), {relative: true}))
     .pipe(gulp.dest('./dev/'))
     .pipe(browserSync.stream());
 });
@@ -181,7 +190,7 @@ Scripts Tasks
 gulp.task('coffee-dev', function() {
   gulp.src('./src/coffee/**/*.coffee')
     .pipe(coffee({bare: true}))
-    .pipe(gulp.dest('./dev/js/'));
+    .pipe(gulp.dest('./dev/js/app'));
 });
 
 gulp.task('coffee-release', function(cb) {
@@ -195,7 +204,7 @@ gulp.task('js-copy-dev', function() {
   	
   	gulp.src('./src/js/**/*.js')
   	.pipe(plumber())
-    .pipe(gulp.dest('./dev/js/'))
+    .pipe(gulp.dest('./dev/js/vendor'))
     .pipe(browserSync.stream());
     
 });
@@ -233,7 +242,7 @@ Watch Task
 
 
 gulp.task('all-dev', function(cb){
-	gulpSequence(['sass-dev', 'copycss-dev', 'js-copy-dev', 'copy-fonts-dev', 'copy-img-dev', 'coffee-dev'],'jade-dev')(cb);
+	gulpSequence(['sass-dev', 'copycss-dev', 'js-copy-dev', 'copy-fonts-dev', 'copy-img-dev', 'coffee-dev'], 'sync', 'jade-dev')(cb);
 });
 
 gulp.task('coffee-inject-dev', function(cb){
