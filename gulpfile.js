@@ -10,6 +10,7 @@ var gulp = require('gulp'),
   series = require('stream-series'),
 	coffee = require('gulp-coffee'),
 	debug = require('gulp-debug'),
+  mainBowerFiles = require('main-bower-files'),
 	browserSync = require('browser-sync').create();
 
 
@@ -80,29 +81,19 @@ gulp.task('jade-release', function(cb) {
 gulp.task('jade-dev', function() {
 
 
-  var vendorStream = gulp.src(['./dev/js/vendor/**/*.js'], {read: false});
-  var appStream = gulp.src(['./dev/js/app/**/*.js'], {read: false});
-
 	gulp.src('./src/jade/**/*.jade')
 	.pipe(plumber())
     .pipe(jade())
     .pipe(gulp.dest('./dev/'))
-    .pipe(inject(series(vendorStream, appStream), {relative: true}))
-    .pipe(inject(gulp.src(['./dev/css/**/*.css'], {read: false}), {relative: true}))
+    .pipe(inject(gulp.src(['./dev/**/*.js','./dev/**/*.css'], {read: false}), {relative: true}))
     .pipe(gulp.dest('./dev/'))
     .pipe(browserSync.stream());
 });
 
 
-// gulp.task('inject-release', function () {
-//   gulp.src('./dist/**/*.html')
-//   .pipe(inject(gulp.src(['./dist/js/*.js', './dist/css/*.css'], {read: false}), {relative: true}))
-//   .pipe(gulp.dest('./dist'));
-// });
-
 gulp.task('inject-dev',['jade-dev'], function () {
    gulp.src('./dev/**/*.html')
-  .pipe(inject(gulp.src(['./dev/js/*.js', './dev/css/*.css'], {read: false}), {relative: true}))
+  .pipe(inject(gulp.src(['./dev/**/*.js', './dev/**/*.css'], {read: false}), {relative: true}))
   .pipe(gulp.dest('./dev'))
   .pipe(browserSync.stream());
 });
@@ -135,33 +126,22 @@ gulp.task('sass-dev', function () {
 });
 
 
-gulp.task('copycss-build', function(cb) {
-   gulp.src('./src/css/**/*.css')
-   .pipe(gulp.dest('./build/css'));
-   cb();
-});
-
-gulp.task('copycss-dev', function(cb) {
-   gulp.src('./src/css/**/*.css')
-   .pipe(gulp.dest('./dev/css'));
-   cb();
-});
-
-
-// gulp.task('concat-css-build', function(cb) {
-  	
-//   	gulp.src('./build/css/**/*.css')
-//     .pipe(concat('bundle.css'))
-//     .pipe(gulp.dest('./build/css/'));
-//     cb();
-    
+// gulp.task('copycss-build', function(cb) {
+//    gulp.src('./src/css/**/*.css')
+//    .pipe(gulp.dest('./build/css'));
+//    cb();
 // });
 
+// gulp.task('copycss-dev', function(cb) {
+//    gulp.src('./src/css/**/*.css')
+//    .pipe(gulp.dest('./dev/css'));
+//    cb();
+// });
 
 
 gulp.task('minify-css-release', function() {
 
-   gulp.src('./build/css/**/*.css')
+   gulp.src('./build/**/*.css')
    	.pipe(concat('bundle.css'))
     .pipe(cleanCSS())
     .pipe(gulp.dest('./dist/css/'));
@@ -169,10 +149,10 @@ gulp.task('minify-css-release', function() {
 
 
 
-gulp.task('css-release', function(cb){
-	gulpSequence(['sass-build', 'copycss-build'], 'sync','minify-css-release');
-	cb();
-});
+// gulp.task('css-release', function(cb){
+// 	gulpSequence(['sass-build', 'copycss-build'], 'sync','minify-css-release');
+// 	cb();
+// });
 
 
 
@@ -190,7 +170,7 @@ Scripts Tasks
 gulp.task('coffee-dev', function() {
   gulp.src('./src/coffee/**/*.coffee')
     .pipe(coffee({bare: true}))
-    .pipe(gulp.dest('./dev/js/app'));
+    .pipe(gulp.dest('./dev/js/'));
 });
 
 gulp.task('coffee-release', function(cb) {
@@ -200,25 +180,16 @@ gulp.task('coffee-release', function(cb) {
     cb();
 });
 
-gulp.task('js-copy-dev', function() {
-  	
-  	gulp.src('./src/js/**/*.js')
-  	.pipe(plumber())
-    .pipe(gulp.dest('./dev/js/vendor'))
-    .pipe(browserSync.stream());
-    
-});
 
+// gulp.task('js-copy-release', function(cb){
+// 	gulp.src('./src/js/**/*.js')
+// 	.pipe(gulp.dest('./build/js/'));
+// 	cb();
 
-gulp.task('js-copy-release', function(cb){
-	gulp.src('./src/js/**/*.js')
-	.pipe(gulp.dest('./build/js/'));
-	cb();
-
-});
+// });
 
 gulp.task('js-uglify-release', function(){
-	gulp.src('./build/js/**/*.js')
+	gulp.src('./build/**/*.js')
 	.pipe(concat('bundle.js'))
 	.pipe(uglify())
     .pipe(gulp.dest('./dist/js/'));
@@ -226,11 +197,32 @@ gulp.task('js-uglify-release', function(){
 
 
 
-gulp.task('js-release', function(cb){
-	gulpSequence(['js-copy-release', 'coffee-release'], 'sync', 'js-uglify-release');
-	cb();
+
+// gulp.task('js-release', function(cb){
+// 	gulpSequence(['js-copy-release', 'coffee-release'], 'sync', 'js-uglify-release');
+// 	cb();
+// });
+
+
+/**********************************************************************
+
+Bower Task
+
+**********************************************************************/
+
+
+
+gulp.task("bower-files-dev", function(){
+    gulp.src(mainBowerFiles())
+    .pipe(plumber())
+    .pipe(gulp.dest('./dev/vendor'))
+    .pipe(browserSync.stream());
 });
 
+gulp.task("bower-files-release", function(){
+    gulp.src(mainBowerFiles())
+    .pipe(gulp.dest('./build/vendor'));
+  });
 
 
 
@@ -242,7 +234,7 @@ Watch Task
 
 
 gulp.task('all-dev', function(cb){
-	gulpSequence(['sass-dev', 'copycss-dev', 'js-copy-dev', 'copy-fonts-dev', 'copy-img-dev', 'coffee-dev'], 'sync', 'jade-dev')(cb);
+	gulpSequence(['sass-dev', 'bower-files-dev', 'copy-fonts-dev', 'copy-img-dev', 'coffee-dev'], 'sync', 'jade-dev')(cb);
 });
 
 gulp.task('coffee-inject-dev', function(cb){
@@ -279,4 +271,12 @@ Release Task
 *********************************************************************/
 
 
-gulp.task('default', gulpSequence(['copy-fonts-release','copy-img-release','css-release', 'js-release'],'html-release'));
+gulp.task('default', gulpSequence(['copy-fonts-release',
+  'copy-img-release','bower-files-release', 'sass-build', 'coffee-release'], 'sync', ['js-uglify-release', 'minify-css-release'], 'sync', 'html-release'));
+
+
+
+
+
+
+

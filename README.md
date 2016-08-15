@@ -2,17 +2,22 @@
 )
 
 # materialize-css-boilerplate
-Boilerplate to get you started quickly with materialize-css
+Powerful yet simple boilerplate to get you started quickly with materialize-css to build responsive websites with a seamless development experience
+
+Checkout [materialize-css] to learn more about this responsive framework
 
 ## Features
 
 This boilerplate include my favorite tools and components
 
-* The source is compiled into two differnt versions (development and release) using Gulp
-* Watches the files and refresh the browser using Browser-Sync and Gulp
-* More effeicient coding with Jade, SASS and CoffeeScript
 * Javascripts and CSS files are uglyfied and minified for the production version
 * Javascripts and CSS files are injected automatically into the html
+* The sources are compiled into two differnt versions (development and release)
+* The sources are build using Gulp
+* Watches the files and refresh the browser automatically
+* More effeicient coding with Jade, SASS and CoffeeScript
+* Front-End dependencies are managed with Bower
+
 
 ## Requirements
 
@@ -29,6 +34,11 @@ gem install compass
 * Gulp
 ```
 npm install -g gulp
+```
+
+* Bower
+```
+npm install -g bower
 ```
 
 ## Setup
