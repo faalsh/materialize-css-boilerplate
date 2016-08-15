@@ -4,7 +4,7 @@
 # materialize-css-boilerplate
 Powerful yet simple boilerplate to get you started quickly with materialize-css to build responsive websites with a seamless development experience
 
-Checkout [materialize-css] to learn more about this responsive framework
+Checkout [materialize-css](http://http://materializecss.com) to learn more about this responsive framework
 
 ## Features
 
