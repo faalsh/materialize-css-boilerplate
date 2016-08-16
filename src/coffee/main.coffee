@@ -1,4 +1,4 @@
-$ ->
+ $ ->
 	collapse = $ '.button-collapse'
 
 	if collapse?

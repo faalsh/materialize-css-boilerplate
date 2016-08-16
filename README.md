@@ -7,7 +7,7 @@ Checkout [materialize-css](http://http://materializecss.com) to learn more about
 
 ## Features
 
-This boilerplate include my favorite tools and components
+This boilerplate include my favorite recipe of tools and components
 
 * Javascripts and CSS files are uglyfied and minified for the production version
 * Javascripts and CSS files are injected automatically into the html

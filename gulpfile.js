@@ -91,7 +91,6 @@ gulp.task('jade-dev', function() {
     .pipe(gulp.dest('./dev/'))
     .pipe(inject(series(vendorStream, appStream), {relative:true}))
     .pipe(inject(gulp.src(['./dev/**/*.css'], {read: false}), {relative: true}))
-
     .pipe(gulp.dest('./dev/'))
     .pipe(browserSync.stream());
 });

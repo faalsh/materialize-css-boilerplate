@@ -1,13 +1,17 @@
-.icon-block {
-	padding: 0 15px;
-	.material-icons {
-		font-size: inherit;
+nav {
+	ul {
+		a {
+			color: red;
+		}
+	}
+	.brand-logo {
+		color: red;
 	}
 }
+
 p {
 	line-height: 2rem;
 }
-
 .button-collapse {
 	color: #26a69a;
 }
@@ -15,15 +19,21 @@ p {
 	min-height: 380px;
 	line-height: 0;
 	height: auto;
-	color: rgba(255, 255, 255, 0.9);
+	color: rgba(255,255,255,.9);
 	.section {
 		width: 100%;
+	}
+}
+.icon-block {
+	padding: 0 15px;
+	.material-icons {
+		font-size: inherit;
 	}
 }
 footer.page-footer {
 	margin: 0;
 }
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width : 992px) {
 	.parallax-container {
 		.section {
 			position: absolute;
@@ -36,7 +46,7 @@ footer.page-footer {
 		}
 	}
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width : 600px) {
 	#index-banner {
 		.section {
 			top: 0;
