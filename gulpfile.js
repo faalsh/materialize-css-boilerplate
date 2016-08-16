@@ -11,6 +11,7 @@ var gulp = require('gulp'),
 	coffee = require('gulp-coffee'),
 	debug = require('gulp-debug'),
   mainBowerFiles = require('main-bower-files'),
+  clean = require('gulp-clean'),
 	browserSync = require('browser-sync').create();
 
 
@@ -35,7 +36,7 @@ Assets Tasks
 
 gulp.task('copy-fonts-release', function(cb) {
    gulp.src('./src/fonts/**/*.{ttf,woff,eof,svg}')
-   .pipe(gulp.dest('./dist/fonts'));
+   .pipe(gulp.dest('./release/fonts'));
    cb();
 });
 
@@ -48,7 +49,7 @@ gulp.task('copy-fonts-dev', function() {
 
 gulp.task('copy-img-release', function(cb) {
    gulp.src('./src/img/*.*')
-   .pipe(gulp.dest('./dist/img'));
+   .pipe(gulp.dest('./release/img'));
    cb();
 });
 
@@ -71,9 +72,9 @@ gulp.task('jade-release', function(cb) {
 
 	gulp.src('./src/jade/**/*.jade')
     .pipe(jade())
-    .pipe(gulp.dest('./dist/'))
-    .pipe(inject(gulp.src(['./dist/js/**/*.js', './dist/css/**/*.css'], {read: false}), {relative: true}))
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest('./release/'))
+    .pipe(inject(gulp.src(['./release/js/**/*.js', './release/css/**/*.css'], {read: false}), {relative: true}))
+    .pipe(gulp.dest('./release/'));
     cb();
 });
 
@@ -110,10 +111,10 @@ CSS Tasks
 **********************************************************************/
 
 
-gulp.task('sass-build', function (cb) {
+gulp.task('sass-tmp', function (cb) {
    gulp.src('./src/scss/**/*.scss')
    	.pipe(sass())
-    .pipe(gulp.dest('./build/css'))
+    .pipe(gulp.dest('./tmp/css'))
     cb();
 });
 
@@ -126,33 +127,15 @@ gulp.task('sass-dev', function () {
 });
 
 
-// gulp.task('copycss-build', function(cb) {
-//    gulp.src('./src/css/**/*.css')
-//    .pipe(gulp.dest('./build/css'));
-//    cb();
-// });
-
-// gulp.task('copycss-dev', function(cb) {
-//    gulp.src('./src/css/**/*.css')
-//    .pipe(gulp.dest('./dev/css'));
-//    cb();
-// });
 
 
 gulp.task('minify-css-release', function() {
 
-   gulp.src('./build/**/*.css')
+   gulp.src('./tmp/**/*.css')
    	.pipe(concat('bundle.css'))
     .pipe(cleanCSS())
-    .pipe(gulp.dest('./dist/css/'));
+    .pipe(gulp.dest('./release/css/'));
 });
-
-
-
-// gulp.task('css-release', function(cb){
-// 	gulpSequence(['sass-build', 'copycss-build'], 'sync','minify-css-release');
-// 	cb();
-// });
 
 
 
@@ -176,32 +159,19 @@ gulp.task('coffee-dev', function() {
 gulp.task('coffee-release', function(cb) {
   gulp.src('./src/coffee/**/*.coffee')
     .pipe(coffee({bare: true}))
-    .pipe(gulp.dest('./build/js/'));
+    .pipe(gulp.dest('./tmp/js/'));
     cb();
 });
 
 
-// gulp.task('js-copy-release', function(cb){
-// 	gulp.src('./src/js/**/*.js')
-// 	.pipe(gulp.dest('./build/js/'));
-// 	cb();
-
-// });
 
 gulp.task('js-uglify-release', function(){
-	gulp.src('./build/**/*.js')
+	gulp.src('./tmp/**/*.js')
 	.pipe(concat('bundle.js'))
 	.pipe(uglify())
-    .pipe(gulp.dest('./dist/js/'));
+    .pipe(gulp.dest('./release/js/'));
 });
 
-
-
-
-// gulp.task('js-release', function(cb){
-// 	gulpSequence(['js-copy-release', 'coffee-release'], 'sync', 'js-uglify-release');
-// 	cb();
-// });
 
 
 /**********************************************************************
@@ -221,7 +191,7 @@ gulp.task("bower-files-dev", function(){
 
 gulp.task("bower-files-release", function(){
     gulp.src(mainBowerFiles())
-    .pipe(gulp.dest('./build/vendor'));
+    .pipe(gulp.dest('./tmp/vendor'));
   });
 
 
@@ -234,7 +204,7 @@ Watch Task
 
 
 gulp.task('all-dev', function(cb){
-	gulpSequence(['sass-dev', 'bower-files-dev', 'copy-fonts-dev', 'copy-img-dev', 'coffee-dev'], 'sync', 'jade-dev')(cb);
+	gulpSequence('clean-dev',['sass-dev', 'bower-files-dev', 'copy-fonts-dev', 'copy-img-dev', 'coffee-dev'], 'sync', 'jade-dev')(cb);
 });
 
 gulp.task('coffee-inject-dev', function(cb){
@@ -263,6 +233,28 @@ gulp.task('watch', ['all-dev'], function() {
 
 
 
+/*********************************************************************
+
+Clean Task
+
+*********************************************************************/
+
+
+gulp.task('clean-tmp', function () {
+    return gulp.src('./tmp', {read: false})
+        .pipe(clean());
+});
+
+gulp.task('clean-dev', function () {
+    return gulp.src('./dev', {read: false})
+        .pipe(clean());
+});
+
+gulp.task('clean-release', function () {
+    return gulp.src('./release', {read: false})
+        .pipe(clean());
+});
+
 
 /*********************************************************************
 
@@ -271,8 +263,8 @@ Release Task
 *********************************************************************/
 
 
-gulp.task('default', gulpSequence(['copy-fonts-release',
-  'copy-img-release','bower-files-release', 'sass-build', 'coffee-release'], 'sync', ['js-uglify-release', 'minify-css-release'], 'sync', 'html-release'));
+gulp.task('default', gulpSequence('clean-release', ['copy-fonts-release',
+  'copy-img-release','bower-files-release', 'sass-tmp', 'coffee-release'], 'sync', ['js-uglify-release', 'minify-css-release'], 'sync', 'html-release','clean-tmp'));
 
 
 
