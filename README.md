@@ -23,12 +23,9 @@ This boilerplate include my favorite tools and components
 
 * [Node.js](https://nodejs.org/)
 * [Ruby](https://www.ruby-lang.org/en/documentation/installation/)
-* SASS and Compass
+* SASS
 ```
 gem install sass
-```
-```
-gem install compass
 ```
 
 * Gulp
@@ -47,6 +44,10 @@ To setup the project and install all dependencies, run
 
 ```
 npm install 
+```
+
+```
+bower install 
 ```
 
 To run 
