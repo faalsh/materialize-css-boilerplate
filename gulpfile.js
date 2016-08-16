@@ -81,12 +81,16 @@ gulp.task('jade-release', function(cb) {
 
 gulp.task('jade-dev', function() {
 
+  var vendorStream = gulp.src(['./dev/vendor/**/*.js'], {read: false});
+  var appStream = gulp.src(['./dev/js/*.js'], {read: false});
+
 
 	gulp.src('./src/jade/**/*.jade')
 	.pipe(plumber())
     .pipe(jade())
     .pipe(gulp.dest('./dev/'))
-    .pipe(inject(gulp.src(['./dev/**/*.js','./dev/**/*.css'], {read: false}), {relative: true}))
+    .pipe(inject(series(vendorStream, appStream), {relative:true}))
+    .pipe(inject(gulp.src(['./dev/**/*.css'], {read: false}), {relative: true}))
     .pipe(gulp.dest('./dev/'))
     .pipe(browserSync.stream());
 });
@@ -122,8 +126,7 @@ gulp.task('sass-dev', function () {
    gulp.src('./src/scss/**/*.scss')
    	.pipe(plumber())
    	.pipe(sass())
-    .pipe(gulp.dest('./dev/css'))
-    .pipe(browserSync.stream());
+    .pipe(gulp.dest('./dev/css'));
 });
 
 
@@ -224,8 +227,7 @@ gulp.task('watch', ['all-dev'], function() {
     });
 
     gulp.watch("./src/jade/**/*.jade", ['jade-dev']);
-    gulp.watch("./src/scss/**/*.scss", ['sass-inject-dev', 'copycss-dev']);
-    gulp.watch("./src/js/**/*.js", ['js-copy-dev']);
+    gulp.watch("./src/scss/**/*.scss", ['sass-inject-dev']);
     gulp.watch("./src/fonts/**/*.*", ['copy-fonts-dev']);
     gulp.watch("./src/img/**/*.*", ['copy-img-dev']);
     gulp.watch("./src/coffee/**/*.coffee", ['coffee-inject-dev']);
@@ -258,9 +260,18 @@ gulp.task('clean-release', function () {
 
 /*********************************************************************
 
-Release Task
+Release Tasks
 
 *********************************************************************/
+
+gulp.task('run-release', function(){
+
+  browserSync.init({
+    server: "./release"
+  });
+});
+
+gulp.task('run', gulpSequence('default','run-release'));
 
 
 gulp.task('default', gulpSequence('clean-release', ['copy-fonts-release',

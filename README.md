@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/faalsh/materialize-css-boilerplate.svg?branch=master)](https://travis-ci.org/faalsh/materialize-css-boilerplate) [![Dependencies Status](https://david-dm.org/faalsh/materialize-css-boilerplate.svg)](https://david-dm.org/faalsh/materialize-css-boilerplate.svg
-) [![devDependencies Status](https://david-dm.org/faalsh/materialize-css-boilerplate/dev-status.svg)](https://david-dm.org/faalsh/materialize-css-boilerplate?type=dev)
+[![Build Status](https://travis-ci.org/faalsh/materialize-css-boilerplate.svg?branch=master)](https://travis-ci.org/faalsh/materialize-css-boilerplate) [![dependencies Status](https://david-dm.org/faalsh/materialize-css-boilerplate/status.svg)](https://david-dm.org/faalsh/materialize-css-boilerplate) [![devDependencies Status](https://david-dm.org/faalsh/materialize-css-boilerplate/dev-status.svg)](https://david-dm.org/faalsh/materialize-css-boilerplate?type=dev)
 
 # materialize-css-boilerplate
 Powerful yet simple boilerplate to get you started quickly with materialize-css to build responsive websites with a seamless development experience
@@ -8,7 +7,7 @@ Checkout [materialize-css](http://http://materializecss.com) to learn more about
 
 ## Features
 
-This boilerplate include my favorite tools and components
+This boilerplate include my favorite recipe of tools and components
 
 * Javascripts and CSS files are uglyfied and minified for the production version
 * Javascripts and CSS files are injected automatically into the html
