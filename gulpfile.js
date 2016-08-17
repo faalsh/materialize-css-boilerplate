@@ -116,11 +116,14 @@ CSS Tasks
 
 **********************************************************************/
 
+autoprefixerOptions = { 
+    browsers: ['> 5%']
+}
 
 gulp.task('sass-tmp', function (cb) {
    gulp.src('./src/scss/**/*.scss')
    	.pipe(sass())
-    .pipe(autoprefixer())
+    .pipe(autoprefixer(autoprefixerOptions))
     .pipe(gulp.dest('./tmp/css'))
     cb();
 });
@@ -129,7 +132,7 @@ gulp.task('sass-dev', function () {
    gulp.src('./src/scss/**/*.scss')
    	.pipe(plumber())
    	.pipe(sass())
-    .pipe(autoprefixer())
+    .pipe(autoprefixer(autoprefixerOptions))
     .pipe(gulp.dest('./dev/css'));
 });
 
@@ -173,10 +176,9 @@ gulp.task('coffee-release', function(cb) {
 });
 
 
-
 gulp.task('js-uglify-release', function(){
 
-	gulp.src('./tmp/**/*.js')
+	gulp.src(['./tmp/vendor/**/*.js','./tmp/js/**/*.js'])
   .pipe(sourcemaps.init())
 	.pipe(concat('bundle.js'))
 	.pipe(uglify())
