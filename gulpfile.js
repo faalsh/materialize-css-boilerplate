@@ -12,6 +12,8 @@ var gulp = require('gulp'),
 	debug = require('gulp-debug'),
   mainBowerFiles = require('main-bower-files'),
   clean = require('gulp-clean'),
+  autoprefixer = require('gulp-autoprefixer'),
+  sourcemaps = require('gulp-sourcemaps'),
 	browserSync = require('browser-sync').create();
 
 
@@ -118,6 +120,7 @@ CSS Tasks
 gulp.task('sass-tmp', function (cb) {
    gulp.src('./src/scss/**/*.scss')
    	.pipe(sass())
+    .pipe(autoprefixer())
     .pipe(gulp.dest('./tmp/css'))
     cb();
 });
@@ -126,6 +129,7 @@ gulp.task('sass-dev', function () {
    gulp.src('./src/scss/**/*.scss')
    	.pipe(plumber())
    	.pipe(sass())
+    .pipe(autoprefixer())
     .pipe(gulp.dest('./dev/css'));
 });
 
@@ -135,8 +139,10 @@ gulp.task('sass-dev', function () {
 gulp.task('minify-css-release', function() {
 
    gulp.src('./tmp/**/*.css')
+    .pipe(sourcemaps.init())
    	.pipe(concat('bundle.css'))
     .pipe(cleanCSS())
+    .pipe(sourcemaps.write('../maps'))
     .pipe(gulp.dest('./release/css/'));
 });
 
@@ -169,10 +175,13 @@ gulp.task('coffee-release', function(cb) {
 
 
 gulp.task('js-uglify-release', function(){
+
 	gulp.src('./tmp/**/*.js')
+  .pipe(sourcemaps.init())
 	.pipe(concat('bundle.js'))
 	.pipe(uglify())
-    .pipe(gulp.dest('./release/js/'));
+  .pipe(sourcemaps.write('../maps'))
+  .pipe(gulp.dest('./release/js/'));
 });
 
 

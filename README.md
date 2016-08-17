@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/faalsh/materialize-css-boilerplate.svg?branch=master)](https://travis-ci.org/faalsh/materialize-css-boilerplate) [![dependencies Status](https://david-dm.org/faalsh/materialize-css-boilerplate/status.svg)](https://david-dm.org/faalsh/materialize-css-boilerplate) [![devDependencies Status](https://david-dm.org/faalsh/materialize-css-boilerplate/dev-status.svg)](https://david-dm.org/faalsh/materialize-css-boilerplate?type=dev)
 
 # materialize-css-boilerplate
-Powerful yet simple boilerplate to get you started quickly with materialize-css to build responsive websites with a seamless development experience
+Powerful yet simple boilerplate to get you started quickly with materialize-css to build responsive websites with a modern front-end workflow
 
 Checkout [materialize-css](http://http://materializecss.com) to learn more about this responsive framework
 
