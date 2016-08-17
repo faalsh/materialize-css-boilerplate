@@ -83,6 +83,7 @@ gulp.task('jade-release', function(cb) {
 
 gulp.task('jade-dev', function() {
 
+  var jqueryStream = gulp.src(['./dev/vendor/jquery.js'], {read: false});
   var vendorStream = gulp.src(['./dev/vendor/**/*.js'], {read: false});
   var appStream = gulp.src(['./dev/js/*.js'], {read: false});
 
@@ -91,7 +92,7 @@ gulp.task('jade-dev', function() {
 	.pipe(plumber())
     .pipe(jade())
     .pipe(gulp.dest('./dev/'))
-    .pipe(inject(series(vendorStream, appStream), {relative:true}))
+    .pipe(inject(series(jqueryStream, vendorStream, appStream), {relative:true}))
     .pipe(inject(gulp.src(['./dev/**/*.css'], {read: false}), {relative: true}))
     .pipe(gulp.dest('./dev/'))
     .pipe(browserSync.stream());
@@ -190,23 +191,27 @@ gulp.task('js-uglify-release', function(){
 
 /**********************************************************************
 
-Bower Task
+Copy Task
 
 **********************************************************************/
 
+vendorFiles = ['bower_components/jquery/dist/jquery.js',
+              'bower_components/materialize/bin/materialize.css',
+              'bower_components/materialize/bin/materialize.js',
+              'bower_components/masonry/dist/masonry.pkgd.js']
 
 
-gulp.task("bower-files-dev", function(){
-    gulp.src(mainBowerFiles())
-    .pipe(plumber())
-    .pipe(gulp.dest('./dev/vendor'))
-    .pipe(browserSync.stream());
+gulp.task('copy-dev',function(){
+  gulp.src(vendorFiles)
+  .pipe(plumber())
+  .pipe(gulp.dest('./dev/vendor'))
+  .pipe(browserSync.stream());
 });
 
-gulp.task("bower-files-release", function(){
-    gulp.src(mainBowerFiles())
-    .pipe(gulp.dest('./tmp/vendor'));
-  });
+gulp.task('copy-release',function(){
+  gulp.src(vendorFiles)
+  .pipe(gulp.dest('./tmp/vendor'));
+});
 
 
 
@@ -218,7 +223,7 @@ Watch Task
 
 
 gulp.task('all-dev', function(cb){
-	gulpSequence('clean-dev',['sass-dev', 'bower-files-dev', 'copy-fonts-dev', 'copy-img-dev', 'coffee-dev'], 'sync', 'jade-dev')(cb);
+	gulpSequence('clean-dev',['sass-dev', 'copy-dev', 'copy-fonts-dev', 'copy-img-dev', 'coffee-dev'], 'sync', 'jade-dev')(cb);
 });
 
 gulp.task('coffee-inject-dev', function(cb){
@@ -286,7 +291,7 @@ gulp.task('run', gulpSequence('default','run-release'));
 
 
 gulp.task('default', gulpSequence('clean-release', ['copy-fonts-release',
-  'copy-img-release','bower-files-release', 'sass-tmp', 'coffee-release'], 'sync', ['js-uglify-release', 'minify-css-release'], 'sync', 'html-release','clean-tmp'));
+  'copy-img-release','copy-release', 'sass-tmp', 'coffee-release'], 'sync', ['js-uglify-release', 'minify-css-release'], 'sync', 'html-release','clean-tmp'));
 
 
 

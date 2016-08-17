@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "jquery": "~2.1.1",
-    "materialize": "^0.97.7"
+    "materialize": "^0.97.7",
+    "masonry": "^4.1.1"
   }
 }
