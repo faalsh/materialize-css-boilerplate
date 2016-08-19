@@ -14,6 +14,7 @@ var gulp = require('gulp'),
   clean = require('gulp-clean'),
   autoprefixer = require('gulp-autoprefixer'),
   sourcemaps = require('gulp-sourcemaps'),
+  wait = require('gulp-wait'),
 	browserSync = require('browser-sync').create();
 
 
@@ -95,6 +96,7 @@ gulp.task('jade-dev', function() {
     .pipe(inject(series(jqueryStream, vendorStream, appStream), {relative:true}))
     .pipe(inject(gulp.src(['./dev/**/*.css'], {read: false}), {relative: true}))
     .pipe(gulp.dest('./dev/'))
+    .pipe(wait(500))
     .pipe(browserSync.stream());
 });
 
@@ -103,6 +105,7 @@ gulp.task('inject-dev',['jade-dev'], function () {
    gulp.src('./dev/**/*.html')
   .pipe(inject(gulp.src(['./dev/**/*.js', './dev/**/*.css'], {read: false}), {relative: true}))
   .pipe(gulp.dest('./dev'))
+  .pipe(wait(500))
   .pipe(browserSync.stream());
 });
 
@@ -205,6 +208,7 @@ gulp.task('copy-dev',function(){
   gulp.src(vendorFiles)
   .pipe(plumber())
   .pipe(gulp.dest('./dev/vendor'))
+  .pipe(wait(500))
   .pipe(browserSync.stream());
 });
 

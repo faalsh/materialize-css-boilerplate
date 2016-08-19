@@ -15,5 +15,10 @@
 		if $container?
 			$container.masonry {columnWidth: '.col', itemSelector: '.col'}
 
+		slider = $ '.slider'
+
+		if slider?
+			slider.slider {full_width: true}
+
 ) jQuery
 
