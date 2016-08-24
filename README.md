@@ -18,7 +18,7 @@ This boilerplate include my favorite recipe of tools and components
 * Front-End dependencies are managed with Bower
 
 
-## Requirements
+## Requirements 
 
 * [Node.js](https://nodejs.org/)
 * [Ruby](https://www.ruby-lang.org/en/documentation/installation/)
